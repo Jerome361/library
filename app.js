@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
   // res.send('Hello from my Library app')
   // res.sendFile(path.join(__dirname, '/views/index.html'));
-  res.render('index', { list: ['book 1', 'book 2'], titleHd: 'Library App' });
+  res.render('index', { list: ['book 1', 'book 2'], title: 'Library App' });
 });
 
 app.listen(port, () => {
