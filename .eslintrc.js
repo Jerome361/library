@@ -17,4 +17,7 @@ module.exports = {
   },
   rules: {
   },
+  'rules': {
+    'comma-dangle': 0
+  }
 };

@@ -4,9 +4,11 @@ const chalk = require('chalk');
 const morgan = require('morgan');
 const path = require('path');
 
+
 const app = express();
 const port = process.env.PORT;
 app.use(morgan('combined'));
+
 app.use(express.static(path.join(__dirname, '/public/')));
 app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/js')));
@@ -14,10 +16,19 @@ app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist'))
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
+const bookRouter = require('./src/routes/bookRoutes')
+
+app.use('/books', bookRouter);
 app.get('/', (req, res) => {
   // res.send('Hello from my Library app')
   // res.sendFile(path.join(__dirname, '/views/index.html'));
-  res.render('index', { list: ['book 1', 'book 2'], title: 'Library App' });
+  res.render(
+    'index',
+    {
+      nav: [{ link: '/books', title: 'Books' }, { link: '/authors', title: 'Authors' }], 
+      title: 'Library'
+    }
+  );
 });
 
 app.listen(port, () => {
