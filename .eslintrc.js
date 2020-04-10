@@ -16,8 +16,10 @@ module.exports = {
     ecmaVersion: 2018,
   },
   rules: {
+    
   },
   'rules': {
-    'comma-dangle': 0
+    'comma-dangle': 0,
+    
   }
 };
