@@ -5,6 +5,9 @@ const bodyParser = require('body-parser')
 // const debug = require('debug')('app')
 const morgan = require('morgan');
 const path = require('path');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const session = require('express-session')
 
 // // windows linebreaks when not in production environment
 // "rules" = {
@@ -20,6 +23,10 @@ const port = process.env.PORT;
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cookieParser());
+app.use(session({secret: 'library'}))
+require('./src/config/passport.js')(app)
+
 app.use(express.static(path.join(__dirname, '/public/')));
 app.use(
   '/css',
