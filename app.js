@@ -1,6 +1,7 @@
 // Require modules
 const express = require('express');
 const chalk = require('chalk');
+const bodyParser = require('body-parser')
 // const debug = require('debug')('app')
 const morgan = require('morgan');
 const path = require('path');
@@ -17,6 +18,8 @@ const port = process.env.PORT;
 
 //Register middleware
 app.use(morgan('combined'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, '/public/')));
 app.use(
   '/css',
@@ -40,9 +43,11 @@ const nav = [
 
 const bookRouter = require('./src/routes/bookRoutes')(nav);
 const adminRouter = require('./src/routes/adminRoute')(nav);
+const authRouter = require('./src/routes/authRouter')(nav)
 
 app.use('/books', bookRouter);
 app.use('/admin', adminRouter);
+app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
   // res.send('Hello from my Library app')
