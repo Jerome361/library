@@ -1,6 +1,6 @@
 const passport = require('passport')
 
-require('./startegies/strategy.local')
+require('./startegies/strategy.local')();
 
 module.exports = function passportConfig(app) {
   app.use(passport.initialize())

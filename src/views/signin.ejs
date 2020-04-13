@@ -6,7 +6,7 @@
 		<title><%=title%></title>
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="/css/bootstrap.min.css" rel="stylesheet">
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -103,11 +103,11 @@
             <div class="row">    
             <br>
             <div class="col-md-2 col-sm-3 text-center">
-            <h2>Sign Up! Or <a href="/auth/signin">Sign in</a></h2>
-              <form name = "signInForm" action="/auth/signUp" method ="POST">
+              <h2>Sign in!</h2>
+              <form name = "signInForm" action="/auth/signin" method ="POST">
               UserName: <input type="text" name="username" id="userName"><br><br>
               Password: <input type="password" name="password" id="passsword"> <br><br>
-              <button type="submit">Sign Up</button>
+              <button type="submit">Sign in</button>
             </form>
             </div>
           </div>
@@ -165,6 +165,6 @@
 </footer>
 	<!-- script references -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
 	</body>
 </html>

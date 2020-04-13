@@ -1,16 +1,17 @@
 /* eslint-disable linebreak-style */
 const express = require('express');
+const passport = require('passport')
 const { MongoClient } = require('mongodb');
 
 const authRouter = express.Router();
 
-function router() {
+function router(nav) {
   authRouter.route('/signUp')
     .post((req, res) => {
       const { username, password } = req.body;
       const url = 'mongodb://localhost:27017/myLibraryApp';
 
-      //Save user to the database 
+      // Save user to the database
       (async function mongo() {
         let client;
         try {
@@ -36,8 +37,19 @@ function router() {
         }
         client.close();
       }());
-
     });
+  // Render the sign in form
+  authRouter.route('/signin')
+    .get((req, res) => {
+      res.render('signin', {
+        nav,
+        title: 'Sign In'
+      });
+    })
+    .post(passport.authenticate('local', {
+      successRedirect: '/auth/profile',
+      failureRedirect: '/'
+    }))
 
   // Because I have logged in, passport will take the user, serialise it into the cookie and all
   // that magic for us using local strategy, but when a request is made to /profile,
