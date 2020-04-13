@@ -1,15 +1,15 @@
 const express = require('express');
+
 const bookRouter = express.Router();
 const { MongoClient, ObjectId } = require('mongodb');
 
-// // windows linebreaks when not in production environment
-// "rules" = {
-//   "linebreak-style" : ["error", process.env.NODE_ENV === 'prod' ? "unix" : "windows"]
-// } 
-// Books collection array
 function router(nav) {
-
-  // Display book catalogue
+  // authorising access to only signed in users;
+  bookRouter.use((req, res, next) => {
+    if (req.user) next();
+    else res.redirect('/');
+  });
+  // Display book catalogue;
   bookRouter.route('/').get((req, res) => {
     const url = 'mongodb://localhost:27017/myLibraryApp';
 
@@ -23,12 +23,12 @@ function router(nav) {
         // Create a new database instance
         const db = client.db();
 
-        //Create a collection instance and insert books to it.
-        const col = await db.collection('books')
+        // Create a collection instance and insert books to it.
+        const col = await db.collection('books');
 
-        //fetch books
-        let books = await col.find().toArray()
-        await console.log(books)
+        // fetch books
+        const books = await col.find().toArray();
+        await console.log(books);
 
         res.render('bookList', {
           nav,
@@ -36,12 +36,11 @@ function router(nav) {
           books
         });
       } catch (err) {
-        console.err('Database error ' + err);
+        console.err(`Database error ${err}`);
       }
 
       client.close();
     }());
-
   });
 
   // Specific book route
@@ -60,12 +59,12 @@ function router(nav) {
         // Create a new database instance
         const db = client.db();
 
-        //Create a collection instance and insert books to it.
-        const col = await db.collection('books')
+        // Create a collection instance and insert books to it.
+        const col = await db.collection('books');
 
-        //fetch specific books
-        let book = await col.findOne({ _id: ObjectId(id) })
-        await console.log(book)
+        // fetch specific books
+        const book = await col.findOne({ _id: ObjectId(id) });
+        await console.log(book);
 
         res.render('bookView', {
           nav: [
@@ -75,17 +74,15 @@ function router(nav) {
           title: 'Book Details',
           book
         });
-
       } catch (err) {
-        console.err('Database error ' + err);
+        console.err(`Database error ${err}`);
       }
 
       client.close();
     }());
-
   });
   return bookRouter;
 }
 
-//Exports
+// Exports
 module.exports = router;

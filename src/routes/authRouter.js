@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 const express = require('express');
-const passport = require('passport')
+const passport = require('passport');
 const { MongoClient } = require('mongodb');
 
 const authRouter = express.Router();
@@ -49,13 +49,18 @@ function router(nav) {
     .post(passport.authenticate('local', {
       successRedirect: '/auth/profile',
       failureRedirect: '/'
-    }))
+    }));
 
   // Because I have logged in, passport will take the user, serialise it into the cookie and all
   // that magic for us using local strategy, but when a request is made to /profile,
   // it will attach the user as if by magic to the request;
 
   authRouter.route('/profile')
+    .all((req, res, next) => {
+      // authorising access to only signed in users
+      if (req.user) next();
+      else res.redirect('/');
+    })
     .get((req, res) => {
       res.json(req.user);
     });
