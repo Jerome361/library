@@ -5,12 +5,13 @@
 const { MongoClient, ObjectId } = require('mongodb');
 
 function bookController(nav, bookService) {
-    // Authorisation
-    function middleware(req, res, next) {
-        if (req.user) next();
-        else res.redirect('/');
-      }
-      // Index route
+  // Authorisation
+  function middleware(req, res, next) {
+    // if (req.user) {
+    next();
+    // } else res.redirect('/');
+  }
+  // Index route
   function getIndex(req, res) {
     const url = 'mongodb://localhost:27017/myLibraryApp';
 
@@ -66,8 +67,8 @@ function bookController(nav, bookService) {
         const book = await col.findOne({ _id: ObjectId(id) });
         await console.log(book);
 
-        //good reads service
-        book.details = await bookService.getBookById(book.bookId)
+        // good reads service
+        book.details = await bookService.getBookById(book.bookId);
 
         res.render('bookView', {
           nav: [
