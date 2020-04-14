@@ -4,7 +4,7 @@
 // }
 const { MongoClient, ObjectId } = require('mongodb');
 
-function bookController(nav) {
+function bookController(nav, bookService) {
     // Authorisation
     function middleware(req, res, next) {
         if (req.user) next();
@@ -65,6 +65,9 @@ function bookController(nav) {
         // fetch specific books
         const book = await col.findOne({ _id: ObjectId(id) });
         await console.log(book);
+
+        //good reads service
+        book.details = await bookService.getBookById(book.bookId)
 
         res.render('bookView', {
           nav: [
